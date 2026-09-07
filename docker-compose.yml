@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "4008:4008"
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+    # If you need live-reload of the dist folder without rebuilding:
+    # volumes:
+    #   - ./dist:/app/dist:ro
