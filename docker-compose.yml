@@ -8,6 +8,9 @@ services:
     restart: unless-stopped
     environment:
       - PYTHONUNBUFFERED=1
-    # If you need live-reload of the dist folder without rebuilding:
-    # volumes:
-    #   - ./dist:/app/dist:ro
+    volumes:
+      # Persist the SQLite database across container rebuilds/restarts.
+      - task-data:/app/data
+
+volumes:
+  task-data:
