@@ -4,7 +4,9 @@ import { todayISO, type Task } from './api';
 const TYPE_LABEL: Record<Task['type'], string> = {
   homework: 'Homework',
   test: 'Test',
-  task: 'Task'
+  task: 'Task',
+  idea: 'Idea',
+  due_week: 'This Week'
 };
 
 /**
