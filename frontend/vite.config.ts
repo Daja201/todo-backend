@@ -2,51 +2,55 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// Web app served from the same FastAPI backend on :4008. The PWA plugin
-// just makes it installable/offline-shell-cacheable in a browser; it has
-// nothing to do with native mobile packaging.
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
+      includeAssets: ['icons/icon-192.png', 'icons/icon-512.png'],
       manifest: {
-        name: 'Homework & Task Tracker',
+        name: 'Tasks',
         short_name: 'Tasks',
-        description: 'Homework and task tracker',
-        theme_color: '#000000',
-        background_color: '#ffffff',
+        description: 'Simple task manager',
+        theme_color: '#0a0a0a',
+        background_color: '#0a0a0a',
         display: 'standalone',
+        orientation: 'portrait-primary',
+        start_url: '/',
         icons: [
-          { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'icon-512.png', sizes: '512x512', type: 'image/png' }
+          {
+            src: '/icons/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any maskable'
+          },
+          {
+            src: '/icons/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable'
+          }
         ]
       },
       workbox: {
-        // Cache the app shell only — API responses always go to the
-        // network so task data is never served stale from cache.
-        globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
-        navigateFallback: '/index.html',
-        navigateFallbackDenylist: [/^\/api\//],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         runtimeCaching: [
           {
-            urlPattern: ({ request }) => request.destination === 'document',
+            urlPattern: /^\/api\/.*/,
             handler: 'NetworkFirst',
-            options: { cacheName: 'app-shell', networkTimeoutSeconds: 2 }
+            options: {
+              cacheName: 'api-cache',
+              expiration: { maxAgeSeconds: 60 }
+            }
           }
         ]
       }
     })
   ],
   server: {
-    host: true, // expose on LAN for testing against the dev server
-    port: 5173,
     proxy: {
-      // During `npm run dev`, forward /api to the FastAPI backend so the
-      // frontend can keep using relative URLs in dev too.
       '/api': {
-        target: 'http://localhost:4008',
+        target: 'http://localhost:8000',
         changeOrigin: true
       }
     }

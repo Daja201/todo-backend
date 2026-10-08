@@ -56,14 +56,16 @@ init_db()
 # ---------------------------------------------------------------------------
 # Schemas
 # ---------------------------------------------------------------------------
-TaskType = Literal["homework", "test", "task"]
+TaskType = Literal["homework", "test", "task", "idea", "due_week"]
 TaskStatus = Literal["pending", "completed"]
+
+NO_DATE = "9999-12-31"  # sentinel for "no due date"
 
 
 class TaskIn(BaseModel):
     title: str
     type: TaskType
-    dueDate: str
+    dueDate: str  # ISO date or NO_DATE sentinel
     dueTime: Optional[str] = None
 
 
@@ -95,7 +97,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # same-origin web app; loosen only if you add other clients
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

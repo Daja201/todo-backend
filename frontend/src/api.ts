@@ -1,11 +1,11 @@
-export type TaskType = 'homework' | 'test' | 'task';
+export type TaskType = 'homework' | 'test' | 'task' | 'idea' | 'due_week';
 export type TaskStatus = 'pending' | 'completed';
 
 export interface Task {
   id: string;
   title: string;
   type: TaskType;
-  dueDate: string; // ISO date, YYYY-MM-DD
+  dueDate: string; // ISO date YYYY-MM-DD, or NO_DATE sentinel
   dueTime?: string; // optional HH:mm
   status: TaskStatus;
   created_at: number;
@@ -19,9 +19,9 @@ export interface NewTaskInput {
   dueTime?: string;
 }
 
-// Same-origin: the frontend is served by the same FastAPI app that hosts
-// the API, so plain relative paths work whether you're on the LAN,
-// localhost, or a domain — no backend URL to configure.
+/** Sentinel value for tasks with no due date */
+export const NO_DATE = '9999-12-31';
+
 const API_BASE = '/api';
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
@@ -82,4 +82,8 @@ export function addDaysISO(days: number): string {
   const d = new Date();
   d.setDate(d.getDate() + days);
   return toISODate(d);
+}
+
+export function isNoDate(dueDate: string): boolean {
+  return dueDate === NO_DATE;
 }
