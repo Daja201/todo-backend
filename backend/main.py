@@ -56,7 +56,7 @@ init_db()
 # ---------------------------------------------------------------------------
 # Schemas
 # ---------------------------------------------------------------------------
-TaskType = Literal["homework", "test", "task", "idea", "due_week"]
+TaskType = Literal["homework", "test", "task", "idea"]
 TaskStatus = Literal["pending", "completed"]
 
 NO_DATE = "9999-12-31"  # sentinel for "no due date"

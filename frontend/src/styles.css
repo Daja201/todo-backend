@@ -170,7 +170,6 @@ body {
 .chip.badge-test.chip--active     { background: var(--amber); color: #fff; border-color: var(--amber); }
 .chip.badge-task.chip--active     { background: var(--blue); color: #fff; border-color: var(--blue); }
 .chip.badge-idea.chip--active     { background: var(--purple); color: #fff; border-color: var(--purple); }
-.chip.badge-due_week.chip--active { background: var(--teal); color: #fff; border-color: var(--teal); }
 
 .task-input__submit {
   padding: 14px;
@@ -280,7 +279,7 @@ body {
 .badge-test     { background: var(--amber); color: #000; }
 .badge-task     { background: var(--blue); }
 .badge-idea     { background: var(--purple); }
-.badge-due_week { background: var(--teal); }
+
 
 .task-row__date {
   font-size: 12px;

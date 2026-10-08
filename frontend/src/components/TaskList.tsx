@@ -9,7 +9,7 @@ const TYPE_CLASS: Record<TaskType, string> = {
   test:     'badge-test',
   task:     'badge-task',
   idea:     'badge-idea',
-  due_week: 'badge-due_week',
+
 };
 
 const TYPE_LABEL: Record<TaskType, string> = {
@@ -17,10 +17,10 @@ const TYPE_LABEL: Record<TaskType, string> = {
   test:     'Test',
   task:     'Task',
   idea:     'Idea',
-  due_week: 'This Week',
+
 };
 
-const ALL_TYPES: TaskType[] = ['homework', 'test', 'task', 'idea', 'due_week'];
+const ALL_TYPES: TaskType[] = ['homework', 'test', 'task', 'idea'];
 
 interface Group {
   label: string;

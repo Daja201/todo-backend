@@ -6,7 +6,7 @@ const TYPE_LABEL: Record<Task['type'], string> = {
   test: 'Test',
   task: 'Task',
   idea: 'Idea',
-  due_week: 'This Week'
+
 };
 
 /**
