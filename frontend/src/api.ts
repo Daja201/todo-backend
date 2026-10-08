@@ -1,4 +1,4 @@
-export type TaskType = 'homework' | 'test' | 'task' | 'idea' | 'due_week';
+export type TaskType = 'homework' | 'test' | 'task' | 'idea';
 export type TaskStatus = 'pending' | 'completed';
 
 export interface Task {
@@ -81,6 +81,14 @@ export function todayISO(): string {
 export function addDaysISO(days: number): string {
   const d = new Date();
   d.setDate(d.getDate() + days);
+  return toISODate(d);
+}
+
+/** Last day of the current week (Sunday) */
+export function endOfWeekISO(): string {
+  const d = new Date();
+  const day = d.getDay(); // 0=Sun
+  d.setDate(d.getDate() + (7 - day) % 7);
   return toISODate(d);
 }
 

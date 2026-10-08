@@ -1,15 +1,24 @@
 import { useState, useRef } from 'react';
-import { createTask, addDaysISO, todayISO, NO_DATE, type TaskType, type Task } from '../api';
+import { createTask, addDaysISO, todayISO, endOfWeekISO, NO_DATE, type TaskType, type Task } from '../api';
 
 const TYPES: { value: TaskType; label: string; className: string }[] = [
   { value: 'homework', label: 'Homework', className: 'badge-homework' },
   { value: 'test',     label: 'Test',     className: 'badge-test' },
   { value: 'task',     label: 'Task',     className: 'badge-task' },
   { value: 'idea',     label: 'Idea',     className: 'badge-idea' },
-  { value: 'due_week', label: 'This Week', className: 'badge-due_week' },
 ];
 
-type QuickDate = 'today' | 'tomorrow' | 'in2' | 'nodate' | 'custom';
+type QuickDate = 'today' | 'tomorrow' | 'in2' | 'in7' | 'week' | 'nodate' | 'custom';
+
+const QUICK_DATES: { value: QuickDate; label: string }[] = [
+  { value: 'today',    label: 'Today' },
+  { value: 'tomorrow', label: 'Tomorrow' },
+  { value: 'in2',      label: 'In 2 Days' },
+  { value: 'in7',      label: 'In 7 Days' },
+  { value: 'week',     label: 'This Week' },
+  { value: 'nodate',   label: 'No Date' },
+  { value: 'custom',   label: 'Custom' },
+];
 
 interface Props {
   onCreated: (task: Task) => void;
@@ -29,6 +38,8 @@ export default function TaskInput({ onCreated }: Props) {
       case 'today':    return todayISO();
       case 'tomorrow': return addDaysISO(1);
       case 'in2':      return addDaysISO(2);
+      case 'in7':      return addDaysISO(7);
+      case 'week':     return endOfWeekISO();
       case 'nodate':   return NO_DATE;
       case 'custom':   return customDate;
     }
@@ -83,14 +94,14 @@ export default function TaskInput({ onCreated }: Props) {
       </div>
 
       <div className="task-input__row">
-        {(['today', 'tomorrow', 'in2', 'nodate', 'custom'] as QuickDate[]).map((q) => (
+        {QUICK_DATES.map((q) => (
           <button
-            key={q}
+            key={q.value}
             type="button"
-            className={`chip ${quickDate === q ? 'chip--active' : ''}`}
-            onClick={() => setQuickDate(q)}
+            className={`chip ${quickDate === q.value ? 'chip--active' : ''}`}
+            onClick={() => setQuickDate(q.value)}
           >
-            {q === 'today' ? 'Today' : q === 'tomorrow' ? 'Tomorrow' : q === 'in2' ? 'In 2 Days' : q === 'nodate' ? 'No Date' : 'Custom'}
+            {q.label}
           </button>
         ))}
       </div>
